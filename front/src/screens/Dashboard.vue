@@ -1,11 +1,11 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import apiClient from "@/api/axios";
 import { DataTable } from "primevue";
 import Column from "primevue/column";
 import InputText from "primevue/inputtext";
 import Button from "primevue/button";
 import ProductService from "@/services/product.service";
+import Menubar from "@/components/Menubar.vue";
 
 import { useToast } from "primevue/usetoast";
 const toast = useToast();
@@ -73,9 +73,30 @@ onMounted(() => {
 </script>
 
 <template>
+  <Toast />
+  <Menubar />
   <div>
-    <Toast />
-    <h1 class="dashbboard-title">Products</h1>
+    <h1 class="dashboard-title">Products</h1>
+    
+    <div>
+      <h3>Available products</h3>
+      <DataTable
+        v-model:selection="selectedProducts"
+        :value="products"
+        tableStyle="min-width: 50rem"
+        :loading="loading"
+        dataKey="_id"
+        paginator
+        :rows="10"
+        :rowHover="true"
+      >
+        <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
+        <Column field="sku" header="SKU"></Column>
+        <Column field="name" header="Product name"></Column>
+        <Column field="price" header="Price" mode="currency" locale="en-US" currency="USD"></Column>
+        <Column field="stock" header="Stock"></Column>
+      </DataTable>
+    </div>
     <div class="add-product-section">
       <h3>Add a product</h3>
       <div class="input-container">
@@ -93,33 +114,19 @@ onMounted(() => {
         />
       </div>
       <div class="btn-container">
-        <Button label="Add product" @click="handleAddProduct" icon="pi pi-check" />
+        <Button
+          label="Add product"
+          @click="handleAddProduct"
+          icon="pi pi-plus"
+        />
       </div>
-    </div>
-    <div>
-      <h3>Available products</h3>
-      <DataTable
-        v-model:selection="selectedProducts"
-        :value="products"
-        tableStyle="min-width: 50rem"
-        :loading="loading"
-        dataKey="_id"
-        paginator
-        :rows="10"
-        :rowHover="true"
-      >
-        <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
-        <Column field="sku" header="SKU"></Column>
-        <Column field="name" header="Product name"></Column>
-        <Column field="price" header="Price"></Column>
-        <Column field="stock" header="Stock"></Column>
-      </DataTable>
     </div>
   </div>
 </template>
 
 <style>
 .dashboard-title {
+  margin-top: 1rem;
   font-weight: bold;
 }
 h1,
@@ -130,7 +137,7 @@ h3 {
   padding: 1rem;
   box-shadow: 1px 1px 10px 1px lightgrey;
   border-radius: 8px;
-  margin-bottom: 1rem;
+  margin: 2rem 0  1rem;
 }
 .input-container {
   display: grid;

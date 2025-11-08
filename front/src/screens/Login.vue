@@ -2,8 +2,9 @@
 import Button from "primevue/button";
 import Password from "primevue/password";
 import { ref } from "vue";
-import { useRouter } from "vue-router";
 import AuthService from "@/services/auth.service";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 const publicKey = ref("");
 const privateKey = ref("");
@@ -11,7 +12,6 @@ const errorMessage = ref("");
 
 const handleLogin = async () => {
   errorMessage.value = "";
-  console.log(publicKey.value, ":", privateKey.value);
 
   if (!publicKey || !privateKey) {
     errorMessage.value = "Please enter both credentials";
