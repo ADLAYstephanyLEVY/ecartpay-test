@@ -3,11 +3,13 @@ import HelloWorld from './components/HelloWorld.vue'
 import TheWelcome from './components/TheWelcome.vue'
 import Button from 'primevue/button'
 import Login from './screens/Login.vue';
+import Dashboard from './screens/Dashboard.vue';
 </script>
 
 <template>
   <main>
-    <Login/>
+    <!-- <Login/> -->
+     <Dashboard/>
   </main>
 </template>
 
