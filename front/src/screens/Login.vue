@@ -2,6 +2,7 @@
 import Button from "primevue/button";
 import Password from "primevue/password";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import AuthService from "@/services/auth.service";
 
 const publicKey = ref("");
@@ -20,6 +21,7 @@ const handleLogin = async () => {
   try {
     await AuthService.login(publicKey.value, privateKey.value);
     console.log("auth success");
+    router.push("/dashboard");
   } catch (err) {
     console.log("Error authenticating:", err);
     const msg =

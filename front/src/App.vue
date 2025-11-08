@@ -7,10 +7,11 @@ import Dashboard from './screens/Dashboard.vue';
 </script>
 
 <template>
-  <main>
+  <div>
     <!-- <Login/> -->
-     <Dashboard/>
-  </main>
+     <!-- <Dashboard/> -->
+     <router-view></router-view>
+  </div>
 </template>
 
 <style scoped>
