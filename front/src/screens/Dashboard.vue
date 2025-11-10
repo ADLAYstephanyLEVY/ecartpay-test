@@ -5,6 +5,7 @@ import Column from "primevue/column";
 import InputText from "primevue/inputtext";
 import Button from "primevue/button";
 import ProductService from "@/services/product.service";
+import PaymentService from "@/services/payment.service";
 import Menubar from "@/components/Menubar.vue";
 
 import { useToast } from "primevue/usetoast";
@@ -29,19 +30,13 @@ const loadProducts = async () => {
     products.value = await ProductService.getAllProducts();
     console.log(products.value);
   } catch (err) {
-    console.log("Error loading data");
+    console.log("Error loading data", err);
   } finally {
     loading.value = false;
   }
 };
 
-const saveSelected = () => {
-  if (selectedProducts.value.length === 0) {
-    alert("no products");
-    console.log("no products");
-    return;
-  }
-
+const handleCheckout = async () => {
   localSelection.value = JSON.stringify(selectedProducts.value, null, 2);
   toast.add({
     severity: "success",
@@ -49,6 +44,26 @@ const saveSelected = () => {
     detail: "Selected items saved localy",
     life: 3000,
   });
+
+  console.log(selectedProducts.value);
+
+  const selectedPrices = selectedProducts.value.map((item) =>
+    Number(item.price)
+  );
+  console.log(selectedPrices);
+
+  let data = {
+    amounts: selectedPrices,
+    concept: "Order generated",
+    currency: "MXN",
+  };
+
+  try {
+    const created = await PaymentService.createCheckout(data);
+    console.log("Checkout exitoso, respuesta de Ecartpay:", created);
+  } catch (err) {
+    console.error("Fallo la llamada de Checkout:", err);
+  }
 };
 
 const handleAddProduct = async () => {
@@ -57,9 +72,9 @@ const handleAddProduct = async () => {
     products.value.push(created);
     newProduct.value = {}; // clean form
     toast.add({
-      severity: "warn",
-      summary: "Warning",
-      detail: "No products selected",
+      severity: "success",
+      summary: "Saved",
+      detail: "Product created",
       life: 3000,
     });
   } catch (err) {
@@ -77,9 +92,17 @@ onMounted(() => {
   <Menubar />
   <div>
     <h1 class="dashboard-title">Products</h1>
-    
+
     <div>
-      <h3>Available products</h3>
+      <div class="subtitle-section">
+        <h3>Available products</h3>
+        <Button
+          icon="pi pi-shopping-cart"
+          label="Checkout"
+          :disabled="selectedProducts.length === 0"
+          @click="handleCheckout"
+        />
+      </div>
       <DataTable
         v-model:selection="selectedProducts"
         :value="products"
@@ -93,7 +116,13 @@ onMounted(() => {
         <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
         <Column field="sku" header="SKU"></Column>
         <Column field="name" header="Product name"></Column>
-        <Column field="price" header="Price" mode="currency" locale="en-US" currency="USD"></Column>
+        <Column
+          field="price"
+          header="Price"
+          mode="currency"
+          locale="en-US"
+          currency="USD"
+        ></Column>
         <Column field="stock" header="Stock"></Column>
       </DataTable>
     </div>
@@ -137,7 +166,7 @@ h3 {
   padding: 1rem;
   box-shadow: 1px 1px 10px 1px lightgrey;
   border-radius: 8px;
-  margin: 2rem 0  1rem;
+  margin: 2rem 0 1rem;
 }
 .input-container {
   display: grid;
@@ -148,6 +177,10 @@ h3 {
   display: flex;
   justify-content: end;
   margin-top: 1rem;
+}
+.subtitle-section {
+  display: flex;
+  justify-content: space-between;
 }
 @media (min-width: 800px) {
   .input-container {
