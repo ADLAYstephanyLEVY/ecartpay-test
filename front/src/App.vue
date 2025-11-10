@@ -2,20 +2,16 @@
 import HelloWorld from './components/HelloWorld.vue'
 import TheWelcome from './components/TheWelcome.vue'
 import Button from 'primevue/button'
+import Login from './screens/Login.vue';
+import Dashboard from './screens/Dashboard.vue';
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-<span> <Button label="save"/> </span>
-  <main>
-    <TheWelcome />
-  </main>
+  <div>
+    <!-- <Login/> -->
+     <!-- <Dashboard/> -->
+     <router-view></router-view>
+  </div>
 </template>
 
 <style scoped>

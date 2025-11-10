@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "apis": [
+    {
+      "identifier": "ecartpay",
+      "source": "@ecartpay/v1.0#14l48x1tmhns6gle",
+      "integrity": "sha512-sCTqCn+1RxBvmVZwP0vOFlZoBekZuuBUuXTnZtT9C3qqMFK+qGOFssSWom4PrO8y2tkcqL4cXjWKaIr8r7LkYQ==",
+      "installerVersion": "6.1.3"
+    }
+  ]
+}
