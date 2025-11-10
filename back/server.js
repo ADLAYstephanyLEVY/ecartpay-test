@@ -11,13 +11,18 @@ app.get("/", (req, res) => {
 // * Routes
 const authRoute = require("./routes/auth");
 const productsRoute = require("./routes/products");
+const checkoutRoute = require("./routes/checkout");
+const ordersRoute = require("./routes/orders");
+const transactionsRoute = require("./routes/transactions");
 
-// * Middleware
 app.use(express.json());
 
 // * Set Routes
 app.use("/auth", authRoute);
 app.use("/products", productsRoute);
+app.use("/checkout", checkoutRoute);
+app.use("/orders", ordersRoute);
+app.use("/transactions", transactionsRoute);
 
 const port = process.env.PORT || 3000;
 
@@ -26,9 +31,11 @@ app.listen(port, () => {
 });
 
 // * Mongo Connection Config
-console.log(process.env.MONGO_URI);
-const MONGODB_URI =
-  "mongodb+srv://adlyfany_db_user:JaHlHynJzugWJq7V@cluster0.roivr8x.mongodb.net/";
+const MONGODB_URI = process.env.MONGO_URI || "mongodb://localhost:27017/test";
+
+
+
 mongoose
   .connect(MONGODB_URI)
-  .then(() => console.log("Conectado exitosamente a MongoDB."));
+  .then(() => console.log("Succesfully connected to MongoDB."))
+  .catch((err) => console.error("Connection error", err));
