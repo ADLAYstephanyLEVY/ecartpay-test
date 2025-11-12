@@ -27,8 +27,7 @@ const handleLogout = () => {
 </script>
 
 <template>
-  <div class="card">
-    <Menubar :model="items">
+    <Menubar :model="items" class="flex justify-between">
       <template #item="{ item, props }">
         <router-link
           v-if="item.route"
@@ -55,5 +54,4 @@ const handleLogout = () => {
         />
       </template>
     </Menubar>
-  </div>
 </template>

@@ -4,16 +4,22 @@ const ecartpay = require("@api/ecartpay");
 const verifyToken = require("../middleware/middleware");
 
 // [POST] /api/order
+// create an order
 router.post("/", verifyToken, async (req, res) => {
-  const { currency, email, first_name, items, last_name } = req.body;
+  const { email, name, items } = req.body;
 
   const authToken = req.ecartpayToken;
   console.log("Token in checkout", authToken);
 
   try {
     const response = await ecartpay.createOrder(
-      { items, email, currency, first_name, last_name },
-      { authToken }
+      {
+        email: email,
+        currency: "MXN",
+        first_name: name,
+        items: items
+      },
+      { Authorization: authToken }
     );
 
     res.status(200).json(response.data);

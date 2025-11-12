@@ -6,6 +6,9 @@ import AuthService from "@/services/auth.service";
 import { useRouter } from "vue-router";
 const router = useRouter();
 
+import { useToast } from "primevue/usetoast";
+const toast = useToast();
+
 const publicKey = ref("");
 const privateKey = ref("");
 const errorMessage = ref("");
@@ -24,15 +27,24 @@ const handleLogin = async () => {
     router.push("/dashboard");
   } catch (err) {
     console.log("Error authenticating:", err);
+
     const msg =
       err.response?.data?.message || "Connection error or bad credentials";
 
     errorMessage.value = msg;
+
+    toast.add({
+      severity: "error",
+      summary: "Error",
+      detail: "Connection error or Bad credentials. Try again",
+      life: 3000,
+    });
   }
 };
 </script>
 
 <template>
+  <Toast />
   <div class="form-box">
     <img
       alt="Vue logo"

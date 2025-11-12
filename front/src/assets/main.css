@@ -1,4 +1,9 @@
 @import "./base.css";
+@import "tailwindcss";
+@import "tailwindcss-primeui";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 #app {
   max-width: 1280px;
@@ -24,12 +29,8 @@ a,
   padding: 3px;
 }
 
-
-
 @media (hover: hover) {
   a:hover {
     background-color: hsla(160, 100%, 37%, 0.2);
   }
 }
-
-
